@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Happyyy Neww Yearrr</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600&family=Caveat:wght@600&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --bg1:#eea4bf;
+  --bg2:#fbd1e0;
+  --accent:#fc6ba0;
+  --heart-soft:#f7a1be;
+  --text:#4a1f2d;
+}
+
+*{box-sizing:border-box;}
+
+body{
+  margin:0;
+  height:100vh;
+  background:linear-gradient(180deg,var(--bg1),var(--bg2));
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-family:'Playfair Display',serif;
+  overflow:hidden;
+}
+
+/* BACKGROUND HEARTS */
+.bg-hearts{
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  z-index:1;
+}
+.heart{
+  position:absolute;
+}
+.heart.up{
+  bottom:-30px;
+  color:rgba(240,143,176,0.45);
+  animation:up 14s linear infinite;
+}
+.heart.down{
+  top:-30px;
+  color:rgba(220,80,130,0.8);
+  animation:down 14s linear infinite;
+}
+@keyframes up{to{transform:translateY(-120vh);}}
+@keyframes down{to{transform:translateY(120vh);}}
+
+/* CARD */
+.card{
+  width:370px;
+  background:linear-gradient(180deg,#fff,var(--bg2));
+  border-radius:26px;
+  padding:32px 26px;
+  text-align:center;
+  box-shadow:0 18px 36px rgba(252,107,160,.22);
+  position:relative;
+  z-index:2;
+}
+
+/* SLIDES */
+.slide{display:none;}
+.slide.active{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:16px;
+}
+
+/* TEXT */
+h1{margin:0;color:var(--text);}
+.hand{font-family:'Caveat',cursive;font-size:1.6rem;}
+
+/* HEART BUTTON */
+.heart-btn{
+  font-size:1.8rem;
+  background:none;
+  border:none;
+  color:var(--heart-soft);
+  cursor:pointer;
+  text-shadow:
+    0 0 8px rgba(247,161,190,.9),
+    0 0 18px rgba(247,161,190,.7);
+  animation:pulse 2.4s ease-in-out infinite;
+}
+@keyframes pulse{
+  0%,100%{transform:scale(1);}
+  50%{transform:scale(1.12);}
+}
+
+/* BUTTONS */
+button{
+  padding:10px 26px;
+  border:none;
+  border-radius:22px;
+  background:var(--accent);
+  color:#fff;
+  cursor:pointer;
+}
+.glow{box-shadow:0 0 18px rgba(252,107,160,.6);}
+
+/* GLOWING QUESTION MARK */
+.qmark{
+  font-family:'Caveat',cursive;
+  font-size:2rem;
+  background:none;
+  border:none;
+  color:white;
+  cursor:pointer;
+  text-shadow:
+    0 0 6px rgba(255,255,255,.9),
+    0 0 16px rgba(252,107,160,.8);
+}
+
+/* LAYOUT */
+.row{display:flex;gap:24px;align-items:center;}
+.say-wrap{display:flex;gap:10px;align-items:center;}
+
+img{width:160px;}
+.small{width:80px;}
+
+/* LOVE CAT POP */
+#loveCat{
+  opacity:0;
+  transform:scale(.9);
+  transition:opacity .6s ease, transform .6s ease;
+}
+#loveCat.show{
+  opacity:1;
+  transform:scale(1);
+}
+#killCat{width:90px;opacity:0;}
+</style>
+</head>
+
+<body>
+
+<div class="bg-hearts" id="hearts"></div>
+
+<div class="card">
+
+<!-- 1 -->
+<div class="slide active">
+  <h1 id="happy"></h1>
+  <h1 id="newyear"></h1>
+  <button class="heart-btn" onclick="next()">♡</button>
+</div>
+
+<!-- 2 -->
+<div class="slide">
+  <h1>Still here??</h1>
+  <button class="heart-btn" onclick="next()">♡</button>
+</div>
+
+<!-- 3 -->
+<div class="slide">
+  <h1>you readdyyy??</h1>
+  <div class="row">
+    <button id="yesBtn" class="glow">Yes</button>
+    <button class="glow">No</button>
+  </div>
+</div>
+
+<!-- 4 -->
+<div class="slide">
+  <p class="hand" id="ykw"></p>
+  <img src="bouquet.png">
+  <button class="qmark" onclick="next()">?</button>
+</div>
+
+<!-- 5 -->
+<div class="slide">
+  <div class="row">
+    <h1 id="dots"></h1>
+    <img src="bouquet-nobg.png" class="small">
+  </div>
+</div>
+
+<!-- 6 -->
+<div class="slide">
+  <p class="hand" id="love"></p>
+  <img src="cat-3.png" id="loveCat">
+  <div class="row">
+    <button onclick="goSay()">Yes</button>
+    <button onclick="goSay()">Yes</button>
+  </div>
+</div>
+
+<!-- 7 -->
+<div class="slide">
+  <div class="say-wrap">
+    <p class="hand" id="say"></p>
+    <img src="killcat.png" id="killCat">
+  </div>
+  <button id="doneBtn" class="glow" style="display:none" onclick="next()">Yes</button>
+</div>
+
+<!-- 8 -->
+<div class="slide">
+  <h1>could be us</h1>
+  <img src="us.png">
+</div>
+
+</div>
+
+<script>
+/* HEARTS */
+setInterval(()=>{
+  const h=document.createElement("span");
+  h.textContent="♡";
+  h.className="heart "+(Math.random()>.5?"up":"down");
+  h.style.left=Math.random()*100+"%";
+  h.style.fontSize=12+Math.random()*18+"px";
+  document.getElementById("hearts").appendChild(h);
+  setTimeout(()=>h.remove(),16000);
+},300);
+
+/* TYPE HELPER */
+function type(el,text,cb){
+  let i=0; el.innerHTML="";
+  const t=setInterval(()=>{
+    el.innerHTML+=text[i++];
+    if(i===text.length){clearInterval(t);cb&&cb();}
+  },140);
+}
+
+/* SLIDES */
+const slides=document.querySelectorAll(".slide");
+let idx=0;
+function next(){
+  slides[idx].classList.remove("active");
+  idx++;
+  slides[idx].classList.add("active");
+
+  if(idx===3) type(ykw,"( you know what )");
+  if(idx===4) dots();
+  if(idx===5){
+    type(love,"shabii lovess youu",()=>{
+      document.getElementById("loveCat").classList.add("show");
+    });
+  }
+}
+
+/* START */
+type(happy,"Happyyy",()=>type(newyear,"Neww Yearrr"));
+
+/* YES DODGE (INSIDE CARD) */
+let d=0;
+yesBtn.onclick=()=>{
+  d++;
+  if(d<4){
+    yesBtn.style.transform=
+      `translate(${Math.random()*120-60}px,${Math.random()*30-15}px)`;
+  }else next();
+};
+
+/* DOTS WITH 2s WAIT */
+function dots(){
+  let c=0; dotsEl.innerHTML="";
+  const t=setInterval(()=>{
+    dotsEl.innerHTML+=".";
+    if(++c===3){
+      clearInterval(t);
+      setTimeout(next,2000);
+    }
+  },400);
+}
+const dotsEl=document.getElementById("dots");
+
+/* SAY IT BACK FLOW */
+function goSay(){
+  next();
+  setTimeout(()=>{
+    type(say,"say it back",()=>{
+      killCat.style.opacity=1;
+      setTimeout(erase,3000);
+    });
+  },800);
+}
+
+function erase(){
+  let txt=say.innerHTML;
+  const e=setInterval(()=>{
+    txt=txt.slice(0,-1);
+    say.innerHTML=txt;
+    if(!txt){
+      clearInterval(e);
+      type(say,"(done?)",()=>{
+        doneBtn.style.display="block";
+      });
+    }
+  },90);
+}
+</script>
+
+</body>
+</html>
