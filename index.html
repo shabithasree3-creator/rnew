@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!D<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -28,7 +28,7 @@ body{
   overflow:hidden;
 }
 
-/* BACKGROUND HEARTS */
+/* 💗 BACKGROUND HEARTS */
 .bg-hearts{
   position:fixed;
   inset:0;
@@ -51,12 +51,14 @@ body{
 @keyframes up{to{transform:translateY(-120vh);}}
 @keyframes down{to{transform:translateY(120vh);}}
 
-/* CARD */
+/* 🧱 CARD (FIXED SIZE ISSUE HERE) */
 .card{
-  width:370px;
+  width:90vw;
+  max-width:420px;
+  min-height:65vh;
   background:linear-gradient(180deg,#fff,var(--bg2));
   border-radius:26px;
-  padding:32px 26px;
+  padding:36px 28px;
   text-align:center;
   box-shadow:0 18px 36px rgba(252,107,160,.22);
   position:relative;
@@ -69,14 +71,15 @@ body{
   display:flex;
   flex-direction:column;
   align-items:center;
-  gap:16px;
+  justify-content:center;
+  gap:18px;
 }
 
 /* TEXT */
 h1{margin:0;color:var(--text);}
 .hand{font-family:'Caveat',cursive;font-size:1.6rem;}
 
-/* HEART BUTTON */
+/* 💗 HEART BUTTON */
 .heart-btn{
   font-size:1.8rem;
   background:none;
@@ -90,7 +93,7 @@ h1{margin:0;color:var(--text);}
 }
 @keyframes pulse{
   0%,100%{transform:scale(1);}
-  50%{transform:scale(1.12);}
+  50%{transform:scale(1.15);}
 }
 
 /* BUTTONS */
@@ -118,11 +121,11 @@ button{
 }
 
 /* LAYOUT */
-.row{display:flex;gap:24px;align-items:center;}
+.row{display:flex;gap:28px;align-items:center;}
 .say-wrap{display:flex;gap:10px;align-items:center;}
 
-img{width:160px;}
-.small{width:80px;}
+img{width:170px;}
+.small{width:90px;}
 
 /* LOVE CAT POP */
 #loveCat{
@@ -134,6 +137,7 @@ img{width:160px;}
   opacity:1;
   transform:scale(1);
 }
+
 #killCat{width:90px;opacity:0;}
 </style>
 </head>
@@ -144,20 +148,20 @@ img{width:160px;}
 
 <div class="card">
 
-<!-- 1 -->
+<!-- SLIDE 1 -->
 <div class="slide active">
   <h1 id="happy"></h1>
   <h1 id="newyear"></h1>
   <button class="heart-btn" onclick="next()">♡</button>
 </div>
 
-<!-- 2 -->
+<!-- SLIDE 2 -->
 <div class="slide">
   <h1>Still here??</h1>
   <button class="heart-btn" onclick="next()">♡</button>
 </div>
 
-<!-- 3 -->
+<!-- SLIDE 3 -->
 <div class="slide">
   <h1>you readdyyy??</h1>
   <div class="row">
@@ -166,14 +170,14 @@ img{width:160px;}
   </div>
 </div>
 
-<!-- 4 -->
+<!-- SLIDE 4 -->
 <div class="slide">
   <p class="hand" id="ykw"></p>
   <img src="bouquet.png">
   <button class="qmark" onclick="next()">?</button>
 </div>
 
-<!-- 5 -->
+<!-- SLIDE 5 -->
 <div class="slide">
   <div class="row">
     <h1 id="dots"></h1>
@@ -181,7 +185,7 @@ img{width:160px;}
   </div>
 </div>
 
-<!-- 6 -->
+<!-- SLIDE 6 -->
 <div class="slide">
   <p class="hand" id="love"></p>
   <img src="cat-3.png" id="loveCat">
@@ -191,7 +195,7 @@ img{width:160px;}
   </div>
 </div>
 
-<!-- 7 -->
+<!-- SLIDE 7 -->
 <div class="slide">
   <div class="say-wrap">
     <p class="hand" id="say"></p>
@@ -200,7 +204,7 @@ img{width:160px;}
   <button id="doneBtn" class="glow" style="display:none" onclick="next()">Yes</button>
 </div>
 
-<!-- 8 -->
+<!-- FINAL -->
 <div class="slide">
   <h1>could be us</h1>
   <img src="us.png">
@@ -209,7 +213,7 @@ img{width:160px;}
 </div>
 
 <script>
-/* HEARTS */
+/* BACKGROUND HEARTS */
 setInterval(()=>{
   const h=document.createElement("span");
   h.textContent="♡";
@@ -218,7 +222,7 @@ setInterval(()=>{
   h.style.fontSize=12+Math.random()*18+"px";
   document.getElementById("hearts").appendChild(h);
   setTimeout(()=>h.remove(),16000);
-},300);
+},280);
 
 /* TYPE HELPER */
 function type(el,text,cb){
@@ -241,7 +245,7 @@ function next(){
   if(idx===4) dots();
   if(idx===5){
     type(love,"shabii lovess youu",()=>{
-      document.getElementById("loveCat").classList.add("show");
+      loveCat.classList.add("show");
     });
   }
 }
@@ -259,7 +263,7 @@ yesBtn.onclick=()=>{
   }else next();
 };
 
-/* DOTS WITH 2s WAIT */
+/* DOTS */
 function dots(){
   let c=0; dotsEl.innerHTML="";
   const t=setInterval(()=>{
